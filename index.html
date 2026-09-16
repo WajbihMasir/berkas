@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TuntasUMKM — Dashboard Operasional</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <div class="bg-circuit" aria-hidden="true">
+    <svg class="circuit-svg" viewBox="0 0 1600 900" preserveAspectRatio="none">
+      <g class="circuit-lines" fill="none" stroke-width="1.2">
+        <path d="M-20 120 L180 120 L260 40 L520 40" />
+        <path d="M60 900 L60 640 L180 520 L180 380 L330 230" />
+        <path d="M1620 200 L1380 200 L1300 280 L1300 520" />
+        <path d="M1620 760 L1450 760 L1350 660 L1080 660" />
+        <path d="M700 -20 L700 90 L820 210 L1120 210" />
+        <path d="M400 900 L400 800 L520 680" />
+      </g>
+      <g class="circuit-nodes">
+        <circle cx="260" cy="40" r="4" /><circle cx="180" cy="520" r="4" /><circle cx="330" cy="230" r="5" />
+        <circle cx="1300" cy="280" r="4" /><circle cx="1350" cy="660" r="4" /><circle cx="820" cy="210" r="4" />
+        <circle cx="520" cy="680" r="4" /><circle cx="1300" cy="520" r="5" />
+      </g>
+    </svg>
+    <div class="bg-glow bg-glow-a"></div>
+    <div class="bg-glow bg-glow-b"></div>
+  </div>
+
+  <div class="app" id="app" data-testid="app-shell">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar" data-testid="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 40 40"><path d="M20 3 L34 11 V29 L20 37 L6 29 V11 Z" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M13 17 H27 M20 17 V29" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">Tuntas<span class="brand-accent">UMKM</span></span>
+          <span class="brand-sub">Agent Operasional</span>
+        </div>
+        <button class="sidebar-toggle" id="sidebar-toggle" data-testid="sidebar-toggle-button" aria-label="Toggle sidebar" title="Collapse sidebar">
+          <svg viewBox="0 0 24 24"><path d="M15 6 L9 12 L15 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav" data-testid="sidebar-nav">
+        <span class="nav-section">Operasional</span>
+        <a class="nav-item is-active" data-view="dashboard" data-testid="nav-dashboard" href="#dashboard">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="5" rx="1.5"/><rect x="13" y="10" width="8" height="11" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/></svg>
+          <span class="nav-label">Dashboard Metrik</span>
+        </a>
+        <a class="nav-item" data-view="inbox" data-testid="nav-inbox" href="#inbox">
+          <svg viewBox="0 0 24 24"><path d="M4 5h16a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H9l-5 4V6a1 1 0 0 1 1-1z"/></svg>
+          <span class="nav-label">Web Inbox</span>
+          <span class="nav-badge" data-testid="nav-inbox-badge">5</span>
+        </a>
+        <a class="nav-item" data-view="approval" data-testid="nav-approval" href="#approval">
+          <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          <span class="nav-label">Approval Queue</span>
+          <span class="nav-badge nav-badge-warn" id="approval-count-badge" data-testid="nav-approval-badge">3</span>
+        </a>
+        <a class="nav-item" data-view="order" data-testid="nav-order" href="#order">
+          <svg viewBox="0 0 24 24"><path d="M6 2h9l5 5v15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/><path d="M14 2v6h6M9 13h6M9 17h6"/></svg>
+          <span class="nav-label">Order Detail</span>
+        </a>
+        <span class="nav-section">Sistem</span>
+        <a class="nav-item" data-view="kb" data-testid="nav-kb" href="#kb">
+          <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          <span class="nav-label">Knowledge Base</span>
+        </a>
+        <a class="nav-item" data-view="settings" data-testid="nav-settings" href="#settings">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span class="nav-label">Pengaturan</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-foot">
+        <div class="agent-card" data-testid="sidebar-agent-card">
+          <img src="assets/mascot.png" alt="TuntasBot mascot" class="agent-mascot" />
+          <div class="agent-info">
+            <span class="agent-status"><i class="dot dot-live"></i> Agent Online</span>
+            <span class="agent-name">TuntasBot v1.0</span>
+            <span class="agent-meta">VPS 4C/4GB · Hermes</span>
+          </div>
+        </div>
+        <div class="user-chip" data-testid="sidebar-user-chip">
+          <span class="avatar">BR</span>
+          <div class="user-info">
+            <span class="user-name">Bu Ratna</span>
+            <span class="user-role">Pemilik · Ratna Cookies</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="main">
+      <header class="topbar" data-testid="topbar">
+        <div class="topbar-left">
+          <button class="icon-btn mobile-only" id="mobile-menu" data-testid="mobile-menu-button" aria-label="Menu">
+            <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+          <div>
+            <p class="crumb" id="page-crumb" data-testid="page-breadcrumb">Operasional / Dashboard Metrik</p>
+            <h1 class="page-title" id="page-title" data-testid="page-title">Dashboard Metrik</h1>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <label class="search" data-testid="topbar-search">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <input type="text" placeholder="Cari order, pelanggan, produk…" data-testid="topbar-search-input" />
+            <kbd>⌘K</kbd>
+          </label>
+          <span class="pill pill-mono" data-testid="topbar-batch-pill">BATCH 3 · 11–15 SEP 2026</span>
+          <button class="icon-btn has-dot" data-testid="topbar-notifications-button" aria-label="Notifikasi">
+            <svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <main class="content" id="content">
+        <!-- DASHBOARD -->
+        <section class="view is-active" id="view-dashboard" data-testid="view-dashboard">
+          <div class="hero reveal">
+            <div class="hero-text">
+              <span class="eyebrow">// STATUS AGENT</span>
+              <h2>Halo, <span class="accent">Bu Ratna</span>. TuntasBot sudah menuntaskan <span class="accent" id="hero-count">37</span> pekerjaan hari ini.</h2>
+              <p>Dari 40 pesan yang masuk: 21 draft order, 14 jawaban stok/harga, 2 tiket komplain. Ada <strong>3 draft</strong> yang menunggu persetujuan Anda.</p>
+              <div class="hero-actions">
+                <button class="btn btn-primary" data-view-link="approval" data-testid="hero-review-approval-button">
+                  Review Approval Queue
+                  <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </button>
+                <button class="btn btn-ghost" data-view-link="inbox" data-testid="hero-open-inbox-button">Buka Inbox</button>
+              </div>
+              <div class="pipeline" data-testid="hero-pipeline">
+                <span class="pipe-step done">RECEIVED</span><i></i>
+                <span class="pipe-step done">UNDERSTAND</span><i></i>
+                <span class="pipe-step done">GROUNDING</span><i></i>
+                <span class="pipe-step done">TOOL_EXEC</span><i></i>
+                <span class="pipe-step active">PENDING_APPROVAL</span><i></i>
+                <span class="pipe-step">RESPONDED</span><i></i>
+                <span class="pipe-step">COMPLETED</span>
+              </div>
+            </div>
+            <div class="hero-mascot">
+              <div class="mascot-ring"></div>
+              <img src="assets/mascot.png" alt="TuntasBot" data-testid="hero-mascot" />
+              <div class="mascot-tag">"Chat masuk, invoice keluar."</div>
+            </div>
+          </div>
+
+          <div class="kpi-grid" id="kpi-grid" data-testid="kpi-grid"></div>
+
+          <div class="grid-2-1">
+            <div class="card reveal" data-testid="chart-workflow-card">
+              <div class="card-head">
+                <div>
+                  <span class="eyebrow">// COMPLETION BY WORKFLOW</span>
+                  <h3>Tingkat penyelesaian per alur kerja</h3>
+                </div>
+                <div class="seg" data-testid="chart-workflow-range">
+                  <button class="is-active">7 hari</button><button>30 hari</button><button>Batch</button>
+                </div>
+              </div>
+              <div class="chart-wrap"><canvas id="workflowChart" data-testid="chart-workflow-completion"></canvas></div>
+            </div>
+            <div class="card card-baseline reveal" data-testid="baseline-card">
+              <span class="eyebrow">// BASELINE VS AGENT</span>
+              <h3>Penghematan waktu</h3>
+              <div class="baseline-row">
+                <div class="baseline-label">Manual<br /><small>40 order × 3 mnt</small></div>
+                <div class="baseline-bar"><div class="bar bar-manual" style="--w:100%"><span>120 mnt</span></div></div>
+              </div>
+              <div class="baseline-row">
+                <div class="baseline-label">TuntasBot<br /><small>40 order × 6 dtk</small></div>
+                <div class="baseline-bar"><div class="bar bar-agent" style="--w:4%"><span>4 mnt</span></div></div>
+              </div>
+              <div class="baseline-big" data-testid="baseline-saving">
+                <span class="big-num" data-count="97" data-suffix="%">0%</span>
+                <span>waktu pemrosesan dihemat</span>
+              </div>
+              <p class="fineprint">Angka apa adanya dari 40 kasus uji sintetis. Transparansi &gt; klaim sempurna.</p>
+            </div>
+          </div>
+
+          <div class="grid-1-1">
+            <div class="card reveal" data-testid="chart-processing-card">
+              <div class="card-head">
+                <div>
+                  <span class="eyebrow">// LATENCY</span>
+                  <h3>Waktu pemrosesan per pesan (detik)</h3>
+                </div>
+                <span class="pill pill-ok">Target ≤ 10s</span>
+              </div>
+              <div class="chart-wrap"><canvas id="processingTimeChart" data-testid="chart-processing-time"></canvas></div>
+            </div>
+            <div class="card reveal" data-testid="activity-card">
+              <div class="card-head">
+                <div>
+                  <span class="eyebrow">// AUDIT TRAIL</span>
+                  <h3>Aktivitas terbaru</h3>
+                </div>
+                <button class="btn btn-link" data-view-link="order" data-testid="activity-view-all-button">Lihat semua</button>
+              </div>
+              <ul class="activity" id="activity-list" data-testid="activity-list"></ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- INBOX -->
+        <section class="view" id="view-inbox" data-testid="view-inbox">
+          <div class="inbox">
+            <div class="inbox-list card" data-testid="inbox-list">
+              <div class="inbox-list-head">
+                <div class="seg seg-full" data-testid="inbox-filter">
+                  <button class="is-active">Semua</button><button>Order</button><button>Tanya</button><button>Komplain</button>
+                </div>
+              </div>
+              <div id="chat-list"></div>
+            </div>
+            <div class="inbox-thread card" data-testid="inbox-thread">
+              <div class="thread-head" id="thread-head"></div>
+              <div class="thread-body" id="thread-body"></div>
+              <div class="thread-compose">
+                <input type="text" id="compose-input" placeholder="Kirim pesan sintetis pelanggan… (contoh: nastar 2kg sm kastengel 1kg brp ya?)" data-testid="inbox-compose-input" />
+                <button class="btn btn-primary" id="compose-send" data-testid="inbox-compose-send-button">
+                  Kirim
+                  <svg viewBox="0 0 24 24"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+                </button>
+              </div>
+            </div>
+            <div class="inbox-extract card" data-testid="inbox-extraction-panel">
+              <div class="card-head compact">
+                <div>
+                  <span class="eyebrow">// UNDERSTANDING</span>
+                  <h3>Ekstraksi Agent</h3>
+                </div>
+                <span class="pill pill-mono" id="extract-confidence">conf 0.95</span>
+              </div>
+              <pre class="json" id="extract-json" data-testid="inbox-extraction-json"></pre>
+              <div class="sources" id="extract-sources"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- APPROVAL -->
+        <section class="view" id="view-approval" data-testid="view-approval">
+          <div class="approval-head reveal">
+            <div>
+              <span class="eyebrow">// GUARDRAIL · HUMAN-IN-THE-LOOP</span>
+              <h2>Draft menunggu persetujuan <span class="pill pill-warn" id="approval-pending-pill" data-testid="approval-pending-count">3 pending</span></h2>
+              <p>Tidak ada eksekusi final tanpa approval Anda. Approve = kurangi stok + kirim invoice + balas pelanggan.</p>
+            </div>
+            <div class="approval-stats">
+              <div><b id="stat-approved">18</b><span>Approved</span></div>
+              <div><b id="stat-rejected">2</b><span>Rejected</span></div>
+              <div><b>0</b><span>Duplikat</span></div>
+            </div>
+          </div>
+          <div class="approval-grid" id="approval-grid" data-testid="approval-grid"></div>
+        </section>
+
+        <!-- ORDER DETAIL -->
+        <section class="view" id="view-order" data-testid="view-order">
+          <div class="order-head card reveal" data-testid="order-summary-card">
+            <div class="order-id">
+              <span class="eyebrow">// ORDER</span>
+              <h2>#ORD-20260915-001</h2>
+              <div class="order-tags">
+                <span class="pill pill-warn">PENDING_APPROVAL</span>
+                <span class="pill pill-mono">idem: a91f…c3e2</span>
+                <span class="pill pill-mono">msg: MSG-0417</span>
+              </div>
+            </div>
+            <div class="order-meta">
+              <div><small>Pelanggan</small><b>Pelanggan_Sintetis_07 <span class="tag-syn">[SYNTHETIC]</span></b></div>
+              <div><small>Kanal</small><b>WhatsApp (simulasi)</b></div>
+              <div><small>Alamat</small><b>Jakarta Selatan · Zona 1</b></div>
+              <div><small>Dibuat</small><b>15 Sep 2026 · 09:41:07</b></div>
+            </div>
+            <div class="order-actions">
+              <button class="btn btn-success" data-testid="order-approve-button">Approve</button>
+              <button class="btn btn-ghost" data-testid="order-edit-button">Edit</button>
+              <button class="btn btn-danger-ghost" data-testid="order-reject-button">Reject</button>
+            </div>
+          </div>
+
+          <div class="grid-2-1">
+            <div class="card reveal" data-testid="order-items-card">
+              <div class="card-head compact">
+                <div><span class="eyebrow">// ITEMS</span><h3>Rincian pesanan</h3></div>
+                <span class="pill pill-ok">Stok terverifikasi</span>
+              </div>
+              <table class="table" data-testid="order-items-table">
+                <thead><tr><th>Produk</th><th>Varian</th><th class="num">Qty</th><th class="num">Harga</th><th class="num">Subtotal</th><th>Stok</th></tr></thead>
+                <tbody>
+                  <tr><td>Kue Nastar</td><td>Original</td><td class="num">2 kg</td><td class="num">Rp85.000</td><td class="num">Rp170.000</td><td><span class="pill pill-ok">12 → 10</span></td></tr>
+                  <tr><td>Kue Kastengel</td><td>Keju Edam</td><td class="num">1 kg</td><td class="num">Rp95.000</td><td class="num">Rp95.000</td><td><span class="pill pill-ok">8 → 7</span></td></tr>
+                </tbody>
+                <tfoot>
+                  <tr><td colspan="4">Subtotal</td><td class="num">Rp265.000</td><td></td></tr>
+                  <tr><td colspan="4">Ongkir · Jakarta Selatan (Zona 1)</td><td class="num">Rp15.000</td><td></td></tr>
+                  <tr class="total"><td colspan="4">TOTAL</td><td class="num">Rp280.000</td><td></td></tr>
+                </tfoot>
+              </table>
+              <div class="invoice-preview" data-testid="order-invoice-preview">
+                <span class="eyebrow">// DRAFT INVOICE · INV-20260915-001</span>
+                <pre>Ratna Cookies [SYNTHETIC]
+Kepada: Pelanggan_Sintetis_07
+------------------------------------
+Kue Nastar Original     2 kg  170.000
+Kue Kastengel Keju Edam 1 kg   95.000
+Ongkir Zona 1                  15.000
+------------------------------------
+TOTAL                      Rp 280.000
+Status: DRAFT — menunggu approval</pre>
+              </div>
+            </div>
+            <div class="card reveal" data-testid="order-state-card">
+              <div class="card-head compact">
+                <div><span class="eyebrow">// STATE MACHINE</span><h3>Perjalanan order</h3></div>
+              </div>
+              <ol class="timeline" id="state-timeline" data-testid="order-state-timeline"></ol>
+              <div class="reply-draft" data-testid="order-reply-draft">
+                <span class="eyebrow">// RESPONSE DRAFT</span>
+                <p>"Halo kak! Pesanan nastar 2 kg + kastengel 1 kg sudah kami catat. Total Rp280.000 (termasuk ongkir Jaksel Rp15.000). Invoice terlampir ya 🙏"</p>
+                <small>Template berbasis data · bukan free-form · terkirim setelah approve</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="card reveal" data-testid="order-audit-card">
+            <div class="card-head compact">
+              <div><span class="eyebrow">// AUDIT LOG</span><h3>Setiap transisi tercatat</h3></div>
+              <button class="btn btn-link" data-testid="order-audit-export-button">Export JSON</button>
+            </div>
+            <table class="table table-audit" data-testid="order-audit-table">
+              <thead><tr><th>Timestamp</th><th>Actor</th><th>Action</th><th>From → To</th><th>Detail</th></tr></thead>
+              <tbody id="audit-body"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- PLACEHOLDER VIEWS -->
+        <section class="view" id="view-kb" data-testid="view-kb">
+          <div class="card empty reveal">
+            <img src="assets/mascot.png" alt="" class="empty-mascot" />
+            <span class="eyebrow">// KNOWLEDGE BASE (P1)</span>
+            <h2>katalog_produk.json · kebijakan_toko.md · ongkir.json · faq.md</h2>
+            <p>Viewer dokumen RAG — akan ditampilkan di iterasi berikutnya.</p>
+          </div>
+        </section>
+        <section class="view" id="view-settings" data-testid="view-settings">
+          <div class="card empty reveal">
+            <img src="assets/mascot.png" alt="" class="empty-mascot" />
+            <span class="eyebrow">// PENGATURAN</span>
+            <h2>Konfigurasi agent, threshold confidence, template balasan</h2>
+            <p>Mockup statis — halaman ini placeholder.</p>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast-stack" id="toast-stack" data-testid="toast-stack"></div>
+  <script src="script.js"></script>
+</body>
+</html>
